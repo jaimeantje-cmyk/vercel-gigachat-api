@@ -6,7 +6,7 @@ import os
 from typing import Dict, Any
 
 # --- ЖЕСТКО ЗАДАН КЛЮЧ ДЛЯ ТЕСТА (Используем его как basic auth) ---
-AUTH_CREDENTIALS = "MDE5OWI5ZTQtMDExYy03Mzk5LTk0YjEtMWY0NTFhMjIzN2QwOmM1ZGM0NmRhLTY4N2UtNDhhOS1hZjYwLTUyNGQ1Njk5YTc4YQ=="
+AUTH_CREDENTIALS = "MDE5OWI5ZTQtMDExYy03Mzk5LTk0YjEtMWY0NTFhMjIzN2QwOjQxODkzZjVhLTBlOTMtNDAxOS1hYTRlLWVlMmU4NjlkNmVlOQ=="
 # ----------------------------------------------------------------------
 
 # URL для получения токена (стандартный для GigaChat/Sber)
