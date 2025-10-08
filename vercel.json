@@ -1,0 +1,1 @@
+{\n  "version": 2,\n  "builds": [\n    {\n      "src": "api/run.py",\n      "use": "@vercel/python",\n      "config": {\n        "runtime": "python3.11"\n      }\n    }\n  ],\n  "routes": [\n    {\n      "src": "/api/run",\n      "dest": "api/run.py"\n    }\n  ]\n}
