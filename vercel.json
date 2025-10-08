@@ -9,5 +9,10 @@
       }
     }
   ],
-  // ...
+  "routes": [
+    {
+      "src": "/api/run",
+      "dest": "api/run.py"
+    }
+  ]
 }
