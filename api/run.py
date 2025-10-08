@@ -5,7 +5,7 @@ from werkzeug.wrappers import Response # <- Важный импорт для Ver
 from typing import Dict, Any
 
 # --- ВНИМАНИЕ: ЖЕСТКО ЗАДАН КЛЮЧ ДЛЯ ТЕСТА ---
-AUTH_CREDENTIALS = "MDE5OWI5ZTQtMDExYy03Mzk5LTk0YjEtMWY0NTFhMjIzN2QwOjVlZjk0YzYwLTAzZTUtNDdiNC04MjhmLWNmZWZkNGQ2NDY2NQ=="
+AUTH_CREDENTIALS = "MDE5OWI5ZTQtMDExYy03Mzk5LTk0YjEtMWY0NTFhMjIzN2QwOmM1ZGM0NmRhLTY4N2UtNDhhOS1hZjYwLTUyNGQ1Njk5YTc4YQ=="
 # ----------------------------------------------------
 
 def create_response(status_code: int, data_dict: Dict[str, Any]) -> Response:
