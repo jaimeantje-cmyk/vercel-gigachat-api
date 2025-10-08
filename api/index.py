@@ -1,35 +1,49 @@
 # api/index.py
 
 import json
-from .gigachat_core import get_token_logic # Импорт логики из соседнего файла
+from flask import Flask, jsonify, request
+from gigachat import GigaChat
 
-def handler(request):
+# --- Инициализация Flask ---
+# Vercel будет искать именно этот экземпляр 'app'
+app = Flask(__name__)
+
+# --- ЖЕСТКО ЗАДАН КЛЮЧ ДЛЯ ТЕСТА ---
+AUTH_CREDENTIALS = "MDE5OWI5ZTQtMDExYy03Mzk5LTk0YjEtMWY0NTFhMjIzN2QwOmM1ZGM0NmRhLTY4N2UtNDhhOS1hZjYwLTUyNGQ1Njk5YTc4YQ=="
+# ------------------------------------
+
+# Определяем маршрут для POST-запроса
+@app.route("/api/run", methods=["POST"])
+def get_gigachat_token():
     """
-    Точка входа Vercel. Обрабатывает HTTP-запрос и возвращает ответ в формате Vercel.
+    Запускает скрипт GigaChat, используя Flask.
     """
     
+    # 1. Проверка ключа
+    if not AUTH_CREDENTIALS:
+        # Flask возвращает JSON-ответ и код ошибки
+        return jsonify(
+            {"status": "error", "message": "Ошибка конфигурации: Ключ отсутствует."}
+        ), 500
+
+    # 2. Инициализация и выполнение логики GigaChat
     try:
-        # Запускаем логику скрипта
-        token_data = get_token_logic()
+        giga = GigaChat(credentials=AUTH_CREDENTIALS)
+        response = giga.get_token()
         
-        # Успешный ответ (код 200 по умолчанию)
-        return {
-            "statusCode": 200,
-            "headers": {"Content-Type": "application/json"},
-            "body": json.dumps({
-                "status": "success",
-                "token_response": token_data
-            }, ensure_ascii=False)
-        }
+        # Успешный ответ (200 OK)
+        return jsonify({
+            "status": "success",
+            "token_response": response.json() 
+        }), 200
 
     except Exception as e:
-        # Ответ с явным указанием кода 500
-        return {
-            "statusCode": 500,
-            "headers": {"Content-Type": "application/json"},
-            "body": json.dumps({
-                "status": "error",
-                "message": "Ошибка выполнения скрипта.",
-                "details": str(e)
-            }, ensure_ascii=False)
-        }
+        # Ловим и возвращаем ошибку GigaChat
+        return jsonify({
+            "status": "error",
+            "message": "Ошибка выполнения скрипта GigaChat.",
+            "details": str(e)
+        }), 500
+
+# ВАЖНО: Если вы используете Flask, вам не нужен vercel.json!
+# Но так как он уже есть, мы его просто обновим.
