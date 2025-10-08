@@ -1,18 +1,13 @@
-{ 
+{
   "version": 2,
-  "builds": [
+  "builds": [ // <--- THIS SECTION TRIGGERS THE WARNING
     {
       "src": "api/run.py",
       "use": "@vercel/python",
       "config": {
-        "runtime": "python3.11"
+        "runtime": "python3.11" // <--- Vercel will use Python 3.11
       }
     }
   ],
-  "routes": [
-    {
-      "src": "/api/run",
-      "dest": "api/run.py"
-    }
-  ]
+  // ...
 }
