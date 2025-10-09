@@ -16,7 +16,7 @@ module.exports = (req, res) => {
 
     // Собираем команду curl
     const curlCommand = `
-        curl -k -L -X POST 'https://ngw.devices.sberbank.ru:9443/api/v2/oauth' \\
+        curl -L --insecure -X POST 'https://ngw.devices.sberbank.ru:9443/api/v2/oauth' \\
         -H 'Content-Type: application/x-www-form-urlencoded' \\
         -H 'Accept: application/json' \\
         -H 'RqUID: ${Date.now()}' \\
