@@ -1,52 +1,44 @@
 # api/run.py
 
-
 import json
 import requests
 import os
 from typing import Dict, Any
 
-# --- ЖЕСТКО ЗАДАН КЛЮЧ ДЛЯТЕСТА (Используем его как basic auth) ---
-AUTH_CREDENTIALS = "MDE5OWI5ZTQtMDExYy03Mzk5LTk0YjEtMWY0NTFhMjIzN2QwOjBlODM1MGMzLTg5ZDgtNGJhMi1hNThiLWIyYjc0NmM3NjAzMw=="
+# --- ЖЕСТКО ЗАДАН КЛЮЧ ДЛЯ ТЕСТА ---
+AUTH_CREDENTIALS = "MDE5OWI5ZTQtMDExYy03Mzk5LTk0YjEtMWY0NTFhMjIzN2QwOjVlZjk0YzYwLTAzZTUtNDdiNC04MjhmLWNmZWZkNGQ2NDY2NQ=="
 # ----------------------------------------------------------------------
 
-# URL для получения токена (стандартный для GigaChat/Sber)
 AUTH_URL = "https://ngw.devices.sberbank.ru:9443/api/v2/oauth"
 
 def handler(request: Dict[str, Any]):
     """
-    Vercel Handler. Конструирует и отправляет запрос на получение токена GigaChat.
+    Vercel Handler. Самая простая функция для Vercel.
     """
 
     if not AUTH_CREDENTIALS:
         return {
             "statusCode": 500,
-            "body": json.dumps({"status": "error", "message": "Ключ авторизации отсутствует."})
+            "body": json.dumps({"status": "error", "message": "Ключ отсутствует."})
         }
 
     try:
-        # 1. Формирование заголовков для запроса
+        # 1. Формирование запроса (как в предыдущей версии)
         headers = {
             'Content-Type': 'application/x-www-form-urlencoded',
             'Accept': 'application/json',
-            'RqUID': '26d6006f-6887-4180-873b-e85d19a4e610',  # Произвольный RqUID
+            'RqUID': '26d6006f-6887-4180-873b-e85d19a4e610', 
             'Authorization': f'Basic {AUTH_CREDENTIALS}'
         }
+        payload = {'scope': 'GIGACHAT_API_PERS'}
 
-        # 2. Формирование тела запроса
-        payload = {
-            'scope': 'GIGACHAT_API_PERS'
-        }
-
-        # 3. Выполнение запроса с отключенной проверкой SSL (требуется для Sber API)
         response = requests.post(
             AUTH_URL, 
             headers=headers, 
             data=payload,
-            verify=False # Отключаем проверку SSL/TLS, часто требуется для API Сбера
+            verify=False # Отключаем проверку SSL, т.к. может потребоваться для Сбера
         )
         
-        # 4. Проверка HTTP-статуса
         response.raise_for_status() 
 
         # Успешный ответ (код 200 по умолчанию)
@@ -56,7 +48,7 @@ def handler(request: Dict[str, Any]):
         }
 
     except requests.exceptions.RequestException as e:
-        # Ловим ошибки сети, таймауты или 4xx/5xx от API
+        # Ловим ошибки HTTP (4xx, 5xx)
         error_details = response.json() if 'response' in locals() and response.text else str(e)
         return {
             "statusCode": 500,
@@ -67,7 +59,7 @@ def handler(request: Dict[str, Any]):
             })
         }
     except Exception as e:
-        # Ловим другие ошибки
+        # Ловим непредвиденные ошибки
         return {
             "statusCode": 500,
             "body": json.dumps({
