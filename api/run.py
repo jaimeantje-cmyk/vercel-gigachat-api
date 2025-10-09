@@ -7,7 +7,7 @@ from typing import Dict, Any
 
 # --- ЖЕСТКО ЗАДАН КЛЮЧ ДЛЯ ТЕСТА (BASE64) ---
 # В реальном проекте используйте os.environ.get("GIGACHAT_CREDENTIALS")
-AUTH_CREDENTIALS = "MDE5OWI5ZTQtMDExYy03Mzk5LTk0YjEtMWY0NTFhMjIzN2QwOjVlZjk0YzYwLTAzZTUtNDdiNC04MjhmLWNmZWZkNGQ2NDY2NQ=="
+AUTH_CREDENTIALS = "MDE5OWI5ZTQtMDExYy03Mzk5LTk0YjEtMWY0NTFhMjIzN2QwOmQwZTk2YWU1LWZmY2YtNGQ4Ny05MzhmLTMyZmM0N2I4YzdmNg=="
 # ----------------------------------------------------------------------
 
 # URL для получения токена GigaChat
