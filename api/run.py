@@ -11,7 +11,7 @@ AUTH_CREDENTIALS = "MDE5OWI5ZTQtMDExYy03Mzk5LTk0YjEtMWY0NTFhMjIzN2QwOjVlZjk0YzYw
 
 AUTH_URL = "https://ngw.devices.sberbank.ru:9443/api/v2/oauth"
 
-def handler(request: Dict[str, Any]):
+def vercel(request: Dict[str, Any]):
     """
     Vercel Handler. Самая простая функция для Vercel.
     """
