@@ -26,43 +26,45 @@ module.exports = (req, res) => {
     
     // Выполняем команду
     exec(curlCommand, (error, stdout, stderr) => {
-        if (error) {
-            // Если curl вернул ошибку выполнения (не ошибку HTTP)
-            console.error(`exec error: ${error}`);
-            res.status(500).json({ 
-                status: 'error', 
-                message: 'Function execution error', 
-                details: stderr || error.message 
+    // 1. Проверяем ошибку выполнения команды (если curl не найден или не запустился)
+    if (error) {
+        console.error(`exec error: ${error}`);
+        res.status(500).json({ 
+            status: 'error', 
+            message: 'Command execution failed (curl not found or failed)', 
+            details: stderr || error.message 
+        });
+        return;
+    }
+
+    try {
+        // 2. Пытаемся распарсить stdout
+        const tokenResponse = JSON.parse(stdout);
+
+        if (tokenResponse.access_token) {
+            res.status(200).json({
+                status: 'success',
+                token_response: tokenResponse
             });
-            return;
+        } else {
+            // Ошибка от GigaChat API (например, неверный ключ), но JSON распарсен
+            res.status(500).json({
+                status: 'error',
+                message: 'GigaChat API returned an error',
+                token_response: tokenResponse
+            });
         }
 
-        try {
-            // Парсим JSON-ответ от curl
-            const tokenResponse = JSON.parse(stdout);
-
-            if (tokenResponse.access_token) {
-                // Успешный ответ
-                res.status(200).json({
-                    status: 'success',
-                    token_response: tokenResponse
-                });
-            } else {
-                // Ошибка от GigaChat API (например, неверный ключ)
-                res.status(500).json({
-                    status: 'error',
-                    message: 'GigaChat API returned an error',
-                    token_response: tokenResponse
-                });
+    } catch (e) {
+        // 3. Ошибка парсинга JSON (stdout пустой или не JSON)
+        res.status(500).json({ 
+            status: 'error', 
+            message: 'Failed to parse cURL output (Output was not valid JSON)', 
+            details: {
+                stdout: stdout.trim() || "Empty or invalid output",
+                stderr: stderr.trim() || "No error output (stderr is empty)"
             }
-
-        } catch (e) {
-            // Ошибка парсинга JSON
-            res.status(500).json({ 
-                status: 'error', 
-                message: 'Failed to parse cURL output', 
-                details: stdout 
-            });
-        }
-    });
+        });
+    }
+});
 };
