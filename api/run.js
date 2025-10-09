@@ -6,7 +6,7 @@ const { exec } = require('child_process');
 // Ваш ключ авторизации Basic (тот же самый)
 const AUTH_CREDENTIALS = 'Basic MDE5OWI5ZTQtMDExYy03Mzk5LTk0YjEtMWY0NTFhMjIzN2QwOmYyM2JhODg4LTYxNTQtNDU2YS1iNzFhLWFlN2NmNjllNGM3Ng==';
 
-// Функция, которую Vercel будет вызывать при запросе
+// Функция, которую Vercel будет вызывать при з апросе
 module.exports = (req, res) => {
     // Проверяем, что запрос пришел методом POST
     if (req.method !== 'POST') {
