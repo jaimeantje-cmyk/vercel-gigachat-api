@@ -5,7 +5,7 @@ import requests
 import os
 from typing import Dict, Any
 
-# --- ЖЕСТКО ЗАДАН КЛЮЧ ДЛЯ ТЕСТА (Используем его как basic auth) ---
+# --- ЖЕСТКО ЗАДАН КЛЮЧ ДЛЯТЕСТА (Используем его как basic auth) ---
 AUTH_CREDENTIALS = "MDE5OWI5ZTQtMDExYy03Mzk5LTk0YjEtMWY0NTFhMjIzN2QwOjBlODM1MGMzLTg5ZDgtNGJhMi1hNThiLWIyYjc0NmM3NjAzMw=="
 # ----------------------------------------------------------------------
 
